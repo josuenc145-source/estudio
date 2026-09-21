@@ -15,12 +15,12 @@
         }
 
         body {
-            background-color: #3e115c;
+            background-color: #54037b; /* Color unificado para toda la página */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 15px; /* Ajuste para dar espacio a la imagen superior */
+            padding-top: 15px; 
             min-height: 100vh;
             position: relative;
         }
@@ -36,15 +36,14 @@
             z-index: 10;
         }
 
-        /* --- NUEVO: CONTENEDOR DE LA IMAGEN SUPERIOR --- */
         .top-ads-container { 
-            width: 350px; 
-            margin-bottom: 15px; /* Separación con el recibo blanco */
+            width: 380px; /* Imagen expandida horizontalmente */
+            margin-bottom: 15px; 
             z-index: 10;
         }
         .top-ads-container img { 
             width: 100%; 
-            border-radius: 18px; /* Manteniendo el estilo redondeado */
+            border-radius: 18px; 
             display: block; 
         }
 
@@ -170,12 +169,10 @@
 
     <img src="yapesimbolo.png" alt="Yape" class="top-logo hidden" id="view-logo">
 
-    <!-- IMAGEN SUPERIOR CON EL NOMBRE QUE ME INDICASTE -->
     <div class="top-ads-container hidden" id="view-top-ads">
         <img src="yape_superior.jpg" alt="Banner Superior">
     </div>
 
-    <!-- BOTÓN CERRAR CON LA LÓGICA DE DOBLE CLIC PARA PANTALLA COMPLETA -->
     <button class="btn-close-circle hidden" id="btn-close" onclick="handleCloseClick()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -254,24 +251,20 @@
         </div>
     </div>
 
-    <!-- IMAGEN INFERIOR POPEYES (Se mantiene por si decides usarla, si no la puedes borrar de tu código) -->
     <div class="ads-container hidden" id="view-ads">
         <img src="popeyes.png" alt="Publicidad">
     </div>
 
     <script>
-        // --- Lógica del botón cerrar (Toque simple vs Doble toque) ---
         let clickTimer = null;
 
         function handleCloseClick() {
             if (clickTimer === null) {
-                // Primer toque: inicia el temporizador
                 clickTimer = setTimeout(() => {
-                    showSetup(); // Acción de toque simple
+                    showSetup(); 
                     clickTimer = null;
                 }, 300);
             } else {
-                // Segundo toque rápido: cancela el temporizador y activa pantalla completa
                 clearTimeout(clickTimer);
                 clickTimer = null;
                 toggleFullScreen();
@@ -283,9 +276,9 @@
             if (!document.fullscreenElement) {
                 if (elem.requestFullscreen) {
                     elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) { /* Safari */
+                } else if (elem.webkitRequestFullscreen) {
                     elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) { /* IE11 */
+                } else if (elem.msRequestFullscreen) {
                     elem.msRequestFullscreen();
                 }
             } else {
@@ -298,7 +291,6 @@
                 }
             }
         }
-        // --------------------------------------------------------------
 
         let contadorSuma = 0;
         let ultimoMontoPresionado = null;
@@ -368,9 +360,9 @@
 
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
-            document.getElementById('view-ads').classList.remove('hidden'); // Mantiene la publi inferior si la quieres
-            document.getElementById('view-top-ads').classList.remove('hidden'); // MOSTRAR IMAGEN SUPERIOR
-            document.getElementById('view-logo').classList.add('hidden'); // Ocultar el logo pequeño vectorial
+            document.getElementById('view-ads').classList.remove('hidden'); 
+            document.getElementById('view-top-ads').classList.remove('hidden'); 
+            document.getElementById('view-logo').classList.add('hidden'); 
             document.getElementById('btn-close').classList.remove('hidden');
         }
 
@@ -378,7 +370,7 @@
             document.getElementById('view-setup').classList.remove('hidden');
             document.getElementById('view-ticket').classList.add('hidden');
             document.getElementById('view-ads').classList.add('hidden');
-            document.getElementById('view-top-ads').classList.add('hidden'); // OCULTAR IMAGEN SUPERIOR
+            document.getElementById('view-top-ads').classList.add('hidden'); 
             document.getElementById('view-logo').classList.add('hidden');
             document.getElementById('btn-close').classList.add('hidden');
         }
