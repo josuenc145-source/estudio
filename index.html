@@ -158,7 +158,8 @@
 
     <img src="yapesimbolo.png" alt="Yape" class="top-logo hidden" id="view-logo">
 
-    <button class="btn-close-circle hidden" id="btn-close" onclick="showSetup()">
+    <!-- CAMBIO: Ahora llama a la función handleCloseClick() -->
+    <button class="btn-close-circle hidden" id="btn-close" onclick="handleCloseClick()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -241,7 +242,50 @@
     </div>
 
     <script>
-        // Variables para controlar la suma y el reinicio
+        // --- NUEVA LÓGICA DE CLICS EN LA "X" ---
+        let clickTimer = null;
+
+        function handleCloseClick() {
+            if (clickTimer === null) {
+                // PRIMER CLIC: Esperamos 300ms
+                clickTimer = setTimeout(() => {
+                    // Si pasó el tiempo y no hubo otro clic, hace la acción original (volver al setup)
+                    showSetup(); 
+                    clickTimer = null;
+                }, 300);
+            } else {
+                // SEGUNDO CLIC RÁPIDO: Cancelamos el "cerrar" y activamos la Pantalla Completa
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                toggleFullScreen();
+            }
+        }
+
+        function toggleFullScreen() {
+            let elem = document.documentElement; // Selecciona toda la página
+
+            if (!document.fullscreenElement) {
+                // Entrar a pantalla completa
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) { /* Safari / iOS */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+            } else {
+                // Salir de pantalla completa si lo vuelves a presionar
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        // ----------------------------------------
+
         let contadorSuma = 0;
         let ultimoMontoPresionado = null;
 
@@ -249,20 +293,16 @@
             const input = document.getElementById('inMonto');
             let montoActual = parseFloat(input.value) || 0;
 
-            // Si presionas el MISMO botón que la vez anterior
             if (ultimoMontoPresionado === montoPresionado) {
-                contadorSuma++; // Aumentamos el contador de clics
+                contadorSuma++; 
                 
                 if (contadorSuma >= 5) {
-                    // Si ya se presionó 5 veces (llegó al límite), al siguiente clic REINICIA
                     input.value = montoPresionado.toFixed(2);
-                    contadorSuma = 0; // Reseteamos el contador
+                    contadorSuma = 0; 
                 } else {
-                    // Si está dentro del rango 1-4, seguimos SUMANDO
                     input.value = (montoActual + montoPresionado).toFixed(2);
                 }
             } else {
-                // Si presionas un botón DIFERENTE, reseteamos todo y ponemos ese monto
                 input.value = montoPresionado.toFixed(2);
                 ultimoMontoPresionado = montoPresionado;
                 contadorSuma = 0;
