@@ -15,12 +15,12 @@
         }
 
         body {
-            background-color: #54037b; /* Color unificado para toda la página */
+            background-color: #54037b; 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 15px; 
+            padding-top: 5px; /* Subimos todo el contenido hacia arriba */
             min-height: 100vh;
             position: relative;
         }
@@ -37,8 +37,9 @@
         }
 
         .top-ads-container { 
-            width: 380px; /* Imagen expandida horizontalmente */
-            margin-bottom: 15px; 
+            width: 380px; 
+            margin-top: 10px; /* Leve separación del borde superior */
+            margin-bottom: 12px; /* Espacio ajustado entre la imagen y el recibo */
             z-index: 10;
         }
         .top-ads-container img { 
@@ -49,8 +50,8 @@
 
         .btn-close-circle {
             position: absolute;
-            top: 25px;
-            right: 20px;
+            top: 18px; /* Coordenada ajustada para superponerse exactamente a la imagen */
+            right: 18px; 
             width: 42px;
             height: 42px;
             background-color: rgba(255, 255, 255, 0.18);
@@ -360,7 +361,7 @@
 
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
-            document.getElementById('view-ads').classList.remove('hidden'); 
+            document.getElementById('view-ads').classList.remove('hidden');
             document.getElementById('view-top-ads').classList.remove('hidden'); 
             document.getElementById('view-logo').classList.add('hidden'); 
             document.getElementById('btn-close').classList.remove('hidden');
