@@ -20,7 +20,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 25px; 
+            padding-top: 15px; /* Ajuste para dar espacio a la imagen superior */
             min-height: 100vh;
             position: relative;
         }
@@ -34,6 +34,18 @@
             width: 75px;
             height: auto;
             z-index: 10;
+        }
+
+        /* --- NUEVO: CONTENEDOR DE LA IMAGEN SUPERIOR --- */
+        .top-ads-container { 
+            width: 350px; 
+            margin-bottom: 15px; /* Separación con el recibo blanco */
+            z-index: 10;
+        }
+        .top-ads-container img { 
+            width: 100%; 
+            border-radius: 18px; /* Manteniendo el estilo redondeado */
+            display: block; 
         }
 
         .btn-close-circle {
@@ -158,7 +170,12 @@
 
     <img src="yapesimbolo.png" alt="Yape" class="top-logo hidden" id="view-logo">
 
-    <!-- CAMBIO: Ahora llama a la función handleCloseClick() -->
+    <!-- IMAGEN SUPERIOR CON EL NOMBRE QUE ME INDICASTE -->
+    <div class="top-ads-container hidden" id="view-top-ads">
+        <img src="yape_superior.jpg" alt="Banner Superior">
+    </div>
+
+    <!-- BOTÓN CERRAR CON LA LÓGICA DE DOBLE CLIC PARA PANTALLA COMPLETA -->
     <button class="btn-close-circle hidden" id="btn-close" onclick="handleCloseClick()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -237,24 +254,24 @@
         </div>
     </div>
 
+    <!-- IMAGEN INFERIOR POPEYES (Se mantiene por si decides usarla, si no la puedes borrar de tu código) -->
     <div class="ads-container hidden" id="view-ads">
         <img src="popeyes.png" alt="Publicidad">
     </div>
 
     <script>
-        // --- NUEVA LÓGICA DE CLICS EN LA "X" ---
+        // --- Lógica del botón cerrar (Toque simple vs Doble toque) ---
         let clickTimer = null;
 
         function handleCloseClick() {
             if (clickTimer === null) {
-                // PRIMER CLIC: Esperamos 300ms
+                // Primer toque: inicia el temporizador
                 clickTimer = setTimeout(() => {
-                    // Si pasó el tiempo y no hubo otro clic, hace la acción original (volver al setup)
-                    showSetup(); 
+                    showSetup(); // Acción de toque simple
                     clickTimer = null;
                 }, 300);
             } else {
-                // SEGUNDO CLIC RÁPIDO: Cancelamos el "cerrar" y activamos la Pantalla Completa
+                // Segundo toque rápido: cancela el temporizador y activa pantalla completa
                 clearTimeout(clickTimer);
                 clickTimer = null;
                 toggleFullScreen();
@@ -262,29 +279,26 @@
         }
 
         function toggleFullScreen() {
-            let elem = document.documentElement; // Selecciona toda la página
-
+            let elem = document.documentElement;
             if (!document.fullscreenElement) {
-                // Entrar a pantalla completa
                 if (elem.requestFullscreen) {
                     elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) { /* Safari / iOS */
+                } else if (elem.webkitRequestFullscreen) { /* Safari */
                     elem.webkitRequestFullscreen();
                 } else if (elem.msRequestFullscreen) { /* IE11 */
                     elem.msRequestFullscreen();
                 }
             } else {
-                // Salir de pantalla completa si lo vuelves a presionar
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) { /* Safari */
+                } else if (document.webkitExitFullscreen) {
                     document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { /* IE11 */
+                } else if (document.msExitFullscreen) {
                     document.msExitFullscreen();
                 }
             }
         }
-        // ----------------------------------------
+        // --------------------------------------------------------------
 
         let contadorSuma = 0;
         let ultimoMontoPresionado = null;
@@ -354,8 +368,9 @@
 
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
-            document.getElementById('view-ads').classList.remove('hidden');
-            document.getElementById('view-logo').classList.remove('hidden');
+            document.getElementById('view-ads').classList.remove('hidden'); // Mantiene la publi inferior si la quieres
+            document.getElementById('view-top-ads').classList.remove('hidden'); // MOSTRAR IMAGEN SUPERIOR
+            document.getElementById('view-logo').classList.add('hidden'); // Ocultar el logo pequeño vectorial
             document.getElementById('btn-close').classList.remove('hidden');
         }
 
@@ -363,6 +378,7 @@
             document.getElementById('view-setup').classList.remove('hidden');
             document.getElementById('view-ticket').classList.add('hidden');
             document.getElementById('view-ads').classList.add('hidden');
+            document.getElementById('view-top-ads').classList.add('hidden'); // OCULTAR IMAGEN SUPERIOR
             document.getElementById('view-logo').classList.add('hidden');
             document.getElementById('btn-close').classList.add('hidden');
         }
